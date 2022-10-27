@@ -1,0 +1,39 @@
+<p>
+  <mat-toolbar class="page__header">
+<div>
+  <button mat-icon-button class="arrow_back" (click)="backArrow()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span id="title">{{patient?.lastName}} {{patient?.firstName}}'s notes</span>
+</div>
+<button mat-raised-button color="primary" [routerLink]="['add']">
+  Add
+</button>
+</mat-toolbar>
+</p>
+
+
+<div class="notes_card">
+  <mat-card *ngFor="let note of notes">
+    <div class="headers">
+      <mat-card-header>
+        <mat-card-title>
+          Note of {{note.createdDate | date:'short': '': 'fr-FR'}}
+        </mat-card-title>
+      </mat-card-header>
+      <div class="actions">
+        <button mat-icon-button [routerLink]="[note.id]">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+        </mat-menu>
+      </div>
+    </div>
+    <mat-card-content>
+      <p>{{note.note}}</p>
+    </mat-card-content>
+  </mat-card>
+</div>
