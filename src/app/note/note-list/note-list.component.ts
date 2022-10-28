@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {Note} from "../note";
-import {NoteService} from "../note.service";
-import {map, switchMap, tap} from "rxjs/operators";
-import {Patient} from "../../patient/patient";
-import {PatientService} from "../../patient/patient.service";
 import {forkJoin, Observable} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {map, switchMap, tap} from "rxjs/operators";
+import {Note} from "../note";
+import {NoteService} from "../note.service";
+import {Patient} from "../../patient/patient";
+import {PatientService} from "../../patient/patient.service";
+
 
 @Component({
   selector: 'app-note-list',
@@ -19,7 +20,7 @@ export class NoteListComponent implements OnInit {
 
   notes: Note[] | [] = [];
 
-  reactiveData$: Observable<[Note[], Patient]> | undefined;
+  reactiveData$!: Observable<[Note[], Patient]>;
 
   constructor(
     private activateRouter: ActivatedRoute,
@@ -43,5 +44,14 @@ export class NoteListComponent implements OnInit {
 
   backArrow() {
     this.router.navigate(['patient']);
+  }
+
+  delete(id: number): void {
+    this.noteService.delete(id)
+      .pipe(
+        tap(() => this.snackBar.open('Note deleted', 'close')),
+        switchMap(() => this.reactiveData$)
+      )
+      .subscribe();
   }
 }

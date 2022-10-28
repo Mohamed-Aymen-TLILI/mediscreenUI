@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {NoteService} from "../note.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Note} from "../note";
 import {Location} from "@angular/common";
+import {NoteService} from "../note.service";
 
 @Component({
   selector: 'app-note-add',
@@ -38,7 +37,7 @@ export class NoteAddComponent implements OnInit {
 
   submit(): void {
     if (this.noteForm.valid) {
-      const note = new Note({
+      const note = ({
         note: this.contentControl.value,
         patientId: this.activatedRoute.snapshot.params['patientId'],
       });

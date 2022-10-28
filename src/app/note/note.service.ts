@@ -9,6 +9,7 @@ import {Note} from "./note";
 export class NoteService {
 
   private readonly url = 'http://localhost:8082/patHistory/';
+  private readonly urlToDelete = 'http://localhost:8082/notes/note/';
 
   constructor(private http: HttpClient,) {
   }
@@ -23,11 +24,22 @@ export class NoteService {
     return this.http.get(`${this.url}${id}`) as Observable<Note>;
   }
 
-  save(note: Note): Observable<any> {
-    return this.http.post(this.url, note) as Observable<any>;
+  save(note: any): Observable<any> {
+    const params = new HttpParams()
+      .append('patientId', Number(note.patientId))
+      .append('note', note.note.toString());
+    return this.http.post(this.url + 'add', {}, {params: params}) as Observable<any>;
   }
 
-  update(note: Note): Observable<any> {
-    return this.http.put(this.url, note) as Observable<any>;
+  update(note: any): Observable<any> {
+    const params = new HttpParams()
+      .append('patientId', Number(note.patientId))
+      .append('note', note.note.toString())
+      .append('noteId', note.id);
+    return this.http.put(this.url + 'update', {}, {params: params}) as Observable<any>;
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.urlToDelete}${id}`) as Observable<any>;
   }
 }

@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {PatientService} from "../patient.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {map, switchMap} from "rxjs/operators";
 import {Patient} from "../patient";
+import * as moment from "moment/moment";
+import {PatientService} from "../patient.service";
 
 @Component({
   selector: 'app-patient-edit',
@@ -19,7 +20,7 @@ export class PatientEditComponent implements OnInit {
     gender: new FormControl('', [Validators.required]),
     birthDate: new FormControl('', [Validators.required]),
     phone: new FormControl(''),
-    address: new FormControl(''),
+    adress: new FormControl(''),
   });
 
 
@@ -58,10 +59,10 @@ export class PatientEditComponent implements OnInit {
 
   submit(): void {
     if (this.patientForm.valid) {
-      const patient = new Patient({
-        ...this.patientForm.value,
-        id: this.activatedRoute.snapshot.params['id'],
-      });
+      const patient = {...this.patientForm.value,
+        birthDate: moment(this.patientForm.value.birthDate).format('YYYY-MM-DD'),
+        id: this.activatedRoute.snapshot.params['id']
+      };
       this.patientService.update(patient).subscribe(() => {
         this.snackBar.open('Patient updated', 'close');
         this.router.navigate(['/patient']);

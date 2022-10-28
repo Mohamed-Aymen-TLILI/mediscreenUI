@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {NoteService} from "../note.service";
+import {map, switchMap, tap} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {Note} from "../note";
-import {map, switchMap, tap} from "rxjs/operators";
+import {NoteService} from "../note.service";
 
 @Component({
   selector: 'app-note-edit',
@@ -46,7 +46,7 @@ export class NoteEditComponent implements OnInit {
 
   submit(): void {
     if (this.noteForm.value) {
-      const note = new Note({
+      const note = ({
         note: this.contentControl.value,
         id: this.activatedRoute.snapshot.params['id'],
         patientId: this.activatedRoute.snapshot.params['patientId'],

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {AssessmentRiskResult} from "./assessment-risk-result";
 import {Observable} from "rxjs";
+import {AssessmentRiskResult} from "./assessment-risk-result";
 
 @Injectable({
   providedIn: 'root'

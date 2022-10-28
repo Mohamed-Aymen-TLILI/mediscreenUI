@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {AssessmentService} from "../assessment.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {AssessmentRiskResult} from "../assessment-risk-result";
+import {forkJoin, Observable, of} from "rxjs";
 import {catchError, map, switchMap} from "rxjs/operators";
+import {AssessmentService} from "../assessment.service";
 import {Patient} from "../../patient/patient";
 import {PatientService} from "../../patient/patient.service";
-import {forkJoin, Observable, of} from "rxjs";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {AssessmentRiskResult} from "../assessment-risk-result";
 
 @Component({
   selector: 'app-assessment-risk-value',
@@ -17,7 +17,7 @@ export class AssessmentRiskValueComponent implements OnInit {
 
   patient: Patient | undefined;
 
-  reactiveData$: Observable<[AssessmentRiskResult, Patient]> | undefined;
+  reactiveData$!: Observable<[AssessmentRiskResult, Patient]>;
 
   constructor(
     private route: ActivatedRoute,

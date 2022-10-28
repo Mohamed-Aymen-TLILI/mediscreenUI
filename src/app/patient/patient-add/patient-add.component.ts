@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {PatientService} from "../patient.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import * as moment from 'moment';
+import {PatientService} from "../patient.service";
 
 @Component({
   selector: 'app-patient-add',
@@ -17,8 +18,10 @@ export class PatientAddComponent implements OnInit {
     gender: new FormControl('', [Validators.required]),
     birthDate: new FormControl(null, [Validators.required]),
     phone: new FormControl(''),
-    address: new FormControl(''),
+    adress: new FormControl(''),
   });
+
+   newFormat: string = "";
 
   constructor(
     private patientService: PatientService,
@@ -28,7 +31,6 @@ export class PatientAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   get firstNameControl(): FormControl {
@@ -49,7 +51,10 @@ export class PatientAddComponent implements OnInit {
 
   submit(): void {
     if (this.patientForm.valid) {
-      this.patientService.save(this.patientForm.value).subscribe(() => {
+      const patient = {...this.patientForm.value,
+        birthDate: moment(this.patientForm.value.birthDate).format('YYYY-MM-DD')
+        };
+      this.patientService.save(patient).pipe().subscribe(() => {
         this.snackBar.open('Patient added', 'close');
         this.router.navigate(['/patient']);
       });
