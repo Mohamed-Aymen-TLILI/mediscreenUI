@@ -19,7 +19,6 @@ import {MatListModule} from "@angular/material/list";
 
 
 
-
 const dependencies = [
   CommonModule,
   MatToolbarModule,
